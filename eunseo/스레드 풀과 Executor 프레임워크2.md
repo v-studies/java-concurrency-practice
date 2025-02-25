@@ -61,4 +61,22 @@ static void shutdownAndAwaitTermination(ExecutorService es) {
 - 모든 요청이 대기하지 않고 스레드가 바로바로 처리한다. 따라서 빠른 처리가 가능하다.
 
 
+### Executor 스레드 풀 관리 - 사용자 정의 풀 전략
+
+**참고 - 만약 다음과 같이 설정하면?**
+
+```java
+new ThreadPoolExecutor(100, 200, 60, TimeUnit.SECONDS, new
+LinkedBlockingQueue());
+```
+
+- 기본 스레드 100개
+- 최대 스레드 200개
+- 큐 사이즈: 무한대
+
+이렇게 설정하면 절대로 최대 사이즈 만큼 늘어나지 않는다. 왜냐하면 큐가 가득차야 긴급 상황으로 인지 되는데,
+`LinkedBlockingQueue` 를 기본 생성자를 통해 무한대의 사이즈로 사용하게 되면, 큐가 가득찰 수 가 없다. 결국 기
+본 스레드 100개만으로 무한대의 작업을 처리해야 하는 문제가 발생한다. 실무에서 자주하는 실수 중에 하나이다.
+
+
 
